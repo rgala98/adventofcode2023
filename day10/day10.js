@@ -155,9 +155,8 @@ for (let i = 0; i < input.length; i++) {
   }
 }
 let steps = 0;
-console.log("START", currPosY, currPosX);
 
-loop: while (steps !== 20) {
+loop: while (true) {
   let nextChar = "";
   switch (animalFace) {
     case "LEFT":
@@ -257,7 +256,7 @@ loop: while (steps !== 20) {
       steps++;
       break loop;
   }
-  console.log(input[currPosY][currPosX], animalFace, steps);
+
 }
 
-console.log(" FINALLY", input[currPosY][currPosX], animalFace, steps);
+console.log("FINALLY", steps/2);
