@@ -1,6 +1,15 @@
-const inputT = ["..F7.", ".FJ|.", "SJ.L7", "|F--J", "LJ..."];
-
 const input = [
+"...........",
+".S-------7.",
+".|F-----7|.",
+".||.....||.",
+".||.....||.",
+".|L-7.F-J|.",
+".|..|.|..|.",
+".L--J.L--J.",
+"...........",];
+
+const inputT = [
   "F.F77.F7F7FFJJ..77FF.--L777.-7777--F7F7FJFFF7FF|.F77FF|-7-|-F7-7-FF|FJ-FFJ7-F--F|-L--7L|-7FFFF---7-FJ.7J.F-7J.F|7-LF7L7|.F-L|7...LF--LL7F-77",
   "|77FL-F7F-FJJF7FJ-FJF.L||FLJF7JFJ7FJ77LJ-7-||L77-F-7||L7|LL.JJ.L-FFJ-|.FJJ|F|FJJ|..|-7.77LLJF7JJ-|7L77J|.|L|-L7|L-|LL-L7-|7.L7F7-FLJ|FFLJ-LJ",
   "JFFJJFF-|J.|L7.7FL|7|7.LL-J.-JF||J|-L|7|FL7L7FJ|.--7|F---.L-J.|-7JL-F7-7--|7L7.7.F.-JL7L|J.F-JJJ7LFJJLL7F|-7.LF-7.F7LF|L-LFLJL-7FJL|-|7|7.FJ",
@@ -156,6 +165,8 @@ for (let i = 0; i < input.length; i++) {
 }
 let steps = 0;
 
+let loopStore=[{currPosY, currPosX}]
+
 loop: while (true) {
   let nextChar = "";
   switch (animalFace) {
@@ -202,6 +213,7 @@ loop: while (true) {
       } else if (animalFace === "BOTTOM") {
         currPosY++;
       }
+      loopStore.push({currPosY, currPosX});
       steps++;
       break;
     case "-":
@@ -210,6 +222,7 @@ loop: while (true) {
       } else if (animalFace === "LEFT") {
         currPosX--;
       }
+      loopStore.push({currPosY, currPosX});
       steps++;
       break;
     case "L":
@@ -220,6 +233,7 @@ loop: while (true) {
         animalFace = "TOP";
         currPosX--;
       }
+      loopStore.push({currPosY, currPosX});
       steps++;
       break;
     case "J":
@@ -230,6 +244,7 @@ loop: while (true) {
         animalFace = "TOP";
         currPosX++;
       }
+      loopStore.push({currPosY, currPosX});
       steps++;
       break;
     case "7":
@@ -240,6 +255,7 @@ loop: while (true) {
         animalFace = "LEFT";
         currPosY--;
       }
+      loopStore.push({currPosY, currPosX});
       steps++;
       break;
     case "F":
@@ -250,6 +266,7 @@ loop: while (true) {
         animalFace = "BOTTOM";
         currPosX--;
       }
+      loopStore.push({currPosY, currPosX});
       steps++;
       break;
     case "S":
@@ -258,5 +275,37 @@ loop: while (true) {
   }
 
 }
+console.log(loopStore)
+return;
 
-console.log("FINALLY", steps/2);
+let newSteps = 0;
+
+for(i=0;i<input.length;i++){
+
+  for (j=0;j<input[i].length;j++){
+    if(input[i][j] === "."){
+      if(isWithinLoop(i,j)){
+        newSteps++;
+        console.log("NEW STEPS ADD", newSteps);
+      }
+    }
+  }
+}
+
+console.log("I STEPS", newSteps);
+
+function isWithinLoop(y,x){
+  // xC = [-1,0,1,-1,1,-1,0,1];
+  // yC = [-1,-1,-1,0,0,1,1,1];
+  xC
+  let times = 0;
+
+  for(q=0;q<xC.length;q++){
+    const newVal = loopStore.findIndex((val) => val.currPosY === y+yC[q] && val.currPosX === x+xC[q])
+    if(newVal > -1){
+      times++;
+    }
+  }
+  // console.log(times === xC.length)
+  return times === xC.length;
+}
